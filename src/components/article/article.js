@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "./styles.css";
+import CommentList from "../comment-list";
 
 function Article({ article, isOpen, onBtnClick }) {
   useEffect(() => {
@@ -12,6 +13,7 @@ function Article({ article, isOpen, onBtnClick }) {
   const body = isOpen && (
     <section>
       <p>{article.text.split("").join(" ")}</p>
+      <CommentList commentList={article.comments} articleId={article.id} />
     </section>
   );
 
