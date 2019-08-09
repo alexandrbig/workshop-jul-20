@@ -1,24 +1,54 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import Article from "../article";
+import Filters from "../filters";
 import accordion from "../../decorators/accordion";
 
-@connect(state => ({ articles: state.articles }))
+@connect(state => ({ articles: state.articles, filters: state.filters }))
 @accordion
 class ArticleList extends React.Component {
+  getArticles() {
+    const { articles, filters } = this.props;
+    const { comments, date } = filters;
+    let filteredArticles = [...articles];
+    if (comments) {
+      filteredArticles = articles.filter(article =>
+        comments === "comments"
+          ? article.comments && article.comments.length
+          : !article.comments || !article.comments.length
+      );
+    }
+    if (date) {
+      filteredArticles = articles.filter(article => {
+        const articleDate = new Date(article.date);
+        articleDate.setHours(0);
+        articleDate.setMinutes(0);
+        articleDate.setSeconds(0);
+        articleDate.setMilliseconds(0);
+        return articleDate.toISOString() === date;
+      });
+    }
+    return filteredArticles;
+  }
+
   render() {
-    const { articles, defaultOpenId, isOpen, setOpenId } = this.props;
+    const { isOpen, setOpenId } = this.props;
 
     return (
       <div ref={this.setContainerRef}>
-        {articles.map(article => (
-          <Article
-            key={article.id}
-            article={article}
-            isOpen={isOpen(article.id)}
-            onBtnClick={setOpenId(article.id)}
-          />
-        ))}
+        <Filters />
+        <div className={"article-list"}>
+          {this.getArticles().map(article => {
+            return (
+              <Article
+                key={article.id}
+                article={article}
+                isOpen={isOpen(article.id)}
+                onBtnClick={setOpenId(article.id)}
+              />
+            );
+          })}
+        </div>
       </div>
     );
   }

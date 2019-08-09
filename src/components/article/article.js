@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import styles from "./styles.css";
 import CommentList from "../comment-list";
 import { deleteArticle } from "../../ac";
+import PropTypes from "prop-types";
 
 function Article({ article, isOpen, onBtnClick, deleteArticle }) {
   useEffect(() => {
@@ -28,6 +29,13 @@ function Article({ article, isOpen, onBtnClick, deleteArticle }) {
     </div>
   );
 }
+
+Article.propTypes = {
+  article: PropTypes.object,
+  isOpen: PropTypes.bool,
+  onBtnClick: PropTypes.func,
+  deleteArticle: PropTypes.func
+};
 
 export default connect(
   null,
