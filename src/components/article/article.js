@@ -3,15 +3,28 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./styles.css";
 import CommentList from "../comment-list";
-import { deleteArticle } from "../../ac";
+import { deleteArticle, fetchArticleById } from "../../ac";
 
-export function Article({ article, isOpen, onBtnClick, deleteArticle }) {
+export function Article({
+  article,
+  isOpen,
+  onBtnClick,
+  deleteArticle,
+  fetchArticleById
+}) {
   const body = isOpen && (
     <section data-id="article-body">
+      {article.isLoading && <h3>Loading...</h3>}
       <p>{article.text}</p>
       <CommentList article={article} />
     </section>
   );
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchArticleById(article.id);
+    }
+  }, [article.id, isOpen]);
 
   return (
     <div>
@@ -33,5 +46,8 @@ Article.propTypes = {
 
 export default connect(
   null,
-  { deleteArticle }
+  {
+    deleteArticle,
+    fetchArticleById
+  }
 )(Article);

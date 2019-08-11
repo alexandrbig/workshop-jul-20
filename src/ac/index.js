@@ -5,6 +5,7 @@ import {
   DELETE_ARTICLE,
   ERROR,
   FETCH_ALL_ARTICLES,
+  FETCH_ARTICLES,
   INCREMENT,
   START,
   SUCCESS
@@ -59,6 +60,38 @@ export const fetchAllArticles = () => async dispatch => {
     dispatch({
       error,
       type: FETCH_ALL_ARTICLES + ERROR
+    });
+  }
+};
+
+export const fetchArticleById = id => async dispatch => {
+  dispatch({
+    type: FETCH_ARTICLES + START,
+    payload: { id }
+  });
+
+  if (!id) {
+    dispatch({
+      error: "No ID provided!!!",
+      type: FETCH_ARTICLES + ERROR,
+      payload: { id }
+    });
+  }
+
+  try {
+    const res = await fetch("/api/article/" + id);
+    const response = await res.json();
+
+    dispatch({
+      response,
+      type: FETCH_ARTICLES + SUCCESS,
+      payload: { id }
+    });
+  } catch (error) {
+    dispatch({
+      error,
+      type: FETCH_ARTICLES + ERROR,
+      payload: { id }
     });
   }
 };
