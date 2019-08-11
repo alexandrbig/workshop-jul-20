@@ -2,7 +2,8 @@ import {
   CHANGE_DATE_RANGE,
   CHANGE_SELECTION,
   DELETE_ARTICLE,
-  INCREMENT
+  INCREMENT,
+  POST_COMMENT
 } from "../constants";
 
 export const increment = () => ({
@@ -22,4 +23,11 @@ export const changeDateRange = dateRange => ({
 export const changeSelection = selected => ({
   type: CHANGE_SELECTION,
   payload: { selected }
+});
+
+export const postComment = (comment, articleId) => ({
+  type: POST_COMMENT,
+  payload: { ...comment },
+  articleId,
+  generateId: true
 });

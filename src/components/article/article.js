@@ -9,7 +9,7 @@ export function Article({ article, isOpen, onBtnClick, deleteArticle }) {
   const body = isOpen && (
     <section data-id="article-body">
       <p>{article.text}</p>
-      <CommentList comments={article.comments} />
+      <CommentList comments={article.comments} articleId={article.id} />
     </section>
   );
 
