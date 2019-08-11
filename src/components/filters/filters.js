@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { filterArticles } from "../../ac";
 import Select from "react-select";
 import DayPicker from "react-day-picker";
+import style from "./filters.css";
 import "react-day-picker/lib/style.css";
-import "./filters.css";
 
 const options = [
   { value: "", label: "All" },
@@ -17,40 +17,36 @@ const options = [
   { filterArticles }
 )
 class Filters extends React.Component {
-  componentDidMount() {
-    const { filters, filterArticles, isOpen, setOpenId } = this.props;
-    console.log(filters);
-  }
-
+  state = {
+    selectedOption: options[0]
+  };
   handleCommentsChange = selectedOption => {
     this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
     this.props.filterArticles({ comments: selectedOption.value });
   };
 
   handleDateChange = (day, modifiers, e) => {
-    console.log(day, modifiers);
     day.setHours(0);
     this.props.filterArticles({ date: day.toISOString() });
   };
 
   reset = () => {
-    this.props.filterArticles({ date: null, select: "" });
+    this.props.filterArticles({ date: null, comments: "" });
   };
 
   render() {
     const { filters } = this.props;
-    const selectedOption = filters.select;
+    const { selectedOption } = this.state;
 
     return (
-      <div className={"filters-block"}>
+      <div className={style.filters}>
         <h3> Filter articles by:</h3>
-        <div className={"filters-inputs"}>
-          <div className={"date"}>
+        <div className={style.inputs}>
+          <div className={style.date}>
             <label>Date:</label>
             <DayPicker onDayClick={this.handleDateChange} />
           </div>
-          <div className={"select"}>
+          <div className={style.select}>
             <label>Comments:</label>
             <Select
               value={selectedOption}
@@ -60,7 +56,7 @@ class Filters extends React.Component {
           </div>
         </div>
         <p>Selected date: {filters.date}</p>
-        <p>Selected comments: {filters.select}</p>
+        <p>Selected comments: {filters.comments}</p>
         <button onClick={this.reset}>Reset</button>
       </div>
     );

@@ -1,20 +1,28 @@
-.filters-inputs {
+.filters {
+  width: 100%;
+}
+
+.filters h3 {
+  width: 100%;
+}
+
+.filters .inputs {
   display: flex;
   flex-wrap: wrap;
 }
 
-.filters-block h3 {
-  width: 100%;
-}
-
-.filters-block .select {
+.filters .select {
   width: 50%;
 }
 
-.filters-block .date label {
+.filters .date {
+  max-width: 50%;
+}
+
+.filters .date label {
   display: block;
 }
 
-.filters-block button {
+.filters button {
   height: 20px;
 }

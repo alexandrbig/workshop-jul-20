@@ -12,14 +12,14 @@ class ArticleList extends React.Component {
     const { comments, date } = filters;
     let filteredArticles = [...articles];
     if (comments) {
-      filteredArticles = articles.filter(article =>
+      filteredArticles = filteredArticles.filter(article =>
         comments === "comments"
           ? article.comments && article.comments.length
           : !article.comments || !article.comments.length
       );
     }
     if (date) {
-      filteredArticles = articles.filter(article => {
+      filteredArticles = filteredArticles.filter(article => {
         const articleDate = new Date(article.date);
         articleDate.setHours(0);
         articleDate.setMinutes(0);
